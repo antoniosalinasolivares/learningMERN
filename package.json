@@ -1,0 +1,20 @@
+{
+  "name": "nodestartguide",
+  "version": "0.0.1",
+  "description": "Introduccion a Node",
+  "main": "src/index.js",
+  "dependencies": {
+    "country-list": "^2.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "test": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "author": "Antonio Salinas",
+  "license": "MIT"
+}
