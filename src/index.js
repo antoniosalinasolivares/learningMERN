@@ -1,49 +1,34 @@
-/**
- *  Imports after the installation was done
- */
 const express  = require('express');
-const {info, error} = require('./modules/mylogpartial');
-const {countries} = require('country-list');
+const {info} = require('./modules/mylogpartial');
 const app = express();
 
-
-
-/**
- * We need to define a method for app called get, in here we address what to for which response
- * it receives two methods, the string that it is addressing, and a method where we operate,
- * this can be sending a response, logging it into the console or so on.
- */
 app.get('/' , (request, response) => {
-    /**
-     * The response to the request in / is to just print Root Page
-     * In order to do that, we need to set the status to 200, which points
-     * at a successfull request and then send some html back to the client.
-     */
-    response.status(200).send('<html><body><p>Root page</p></body></head>')
+    response.status(200).send('<html><body><p>Hello World</p></body></head>')
 });
-
 /**
- * If we do not set the status code for the response, express automatically sets it to be 200
+ * En este metodo de capturar querys desde el url, donde el orden y cantidad de querys ya esta definido,
+ * a comparacion del metodo query de response, no es dinamico y debe ser manejado de forma estatica
+ * en este ejemplo, esta definido para 2 parametros que yaa tienen nombre no asignado por el URL
+ * http://localhost:4000/var1/var2
+ * y para acceder a ellos, usaremos otro metodo de response, params.
+ * 
+ * request.params.codigo1 = "var1"
+ * request.params.codigo2 = "var2"
+ * 
  */
-app.get('/info', (request, response) => {
-    /**
-     * In this case, we are logging every url consulted to the console, specified in the method info 
-     */
-    info('info requested')
-    
-    /**
-     * If we do not set the status to 200 and only send a response as it is, express will asume that it
-     * was a correct request and set it to 200 automatically, be carefull,
-     * since the next case * will put it to 404 
-     */
-    response.send('info')
+app.get('/info/:codigo/:codigo2', (request, response) => {
+    let {codigo, codigo2} = request.params;
+    response.send(`<p> El valor introducido para el primer codigo fue: ${ codigo } </p> 
+    <p> El valor introducido para el segundo valor fue: ${ codigo2 } </p>`);
 })
 
 /**
- *  In here we define all the cases that are not defined
+ * Considera que si la cantidad de parametros no coincide, la peticion ira al caso *
  */
+
+
 app.get('*', (request, response) => {
-    response.status(404).send('Not found bitch')
+    response.status(404).send('Not found')
     info(request.url)
 })
 
