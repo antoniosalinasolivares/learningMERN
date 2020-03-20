@@ -1,5 +1,5 @@
 const express  = require('express');
-const {info} = require('./modules/mylogpartial');
+const {getName, getCode} = require('country-list');
 const app = express();
 
 app.get('/' , (request, response) => {
@@ -18,8 +18,10 @@ app.get('/' , (request, response) => {
  */
 app.get('/info/:codigo/:codigo2', (request, response) => {
     let {codigo, codigo2} = request.params;
-    response.send(`<p> El valor introducido para el primer codigo fue: ${ codigo } </p> 
-    <p> El valor introducido para el segundo valor fue: ${ codigo2 } </p>`);
+    response.send(`<p> El valor introducido para el primer codigo fue: ${ codigo } </p>
+    <p> que indica el valor de ${ getName(codigo) }</p>
+    <p> El valor introducido para el segundo valor fue: ${ codigo2 } </p>
+    <p>que indica el valor de ${ getName(codigo2)}</p>`);
 })
 
 /**
@@ -29,7 +31,6 @@ app.get('/info/:codigo/:codigo2', (request, response) => {
 
 app.get('*', (request, response) => {
     response.status(404).send('Not found')
-    info(request.url)
 })
 
 app.listen(4000, () => {console.log('Starting server in port 4000')});
