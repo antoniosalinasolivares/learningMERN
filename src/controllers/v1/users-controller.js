@@ -2,19 +2,35 @@ const bcrypt = require('bcrypt');
 const Users = require('../../mongo/models/users');
 
 const createUser = async (request, response) =>{
-    
+    /*const {username, email, password, data } = request.body;
+    bcrypt.hash(password, 15)
+    .then((hash) =>{
+        Users.create({
+            username,
+            email,
+            data,
+            password : hash
+        })
+    }).then(()=>{
+        response.send({
+            status: 'Success',
+            message: 'Usuario Creado'
+        })
+    }).catch((error)=>{
+        response.status(505).send({
+            status : 'Error', 
+            message : `error : ${error.message}` 
+        })
+    })*/
     try {
         const {username, email, password, data } = request.body;
         const hash = await bcrypt.hash(password, 15);
-        console.log(request.body);
-        console.log(hash);
         await Users.create({
             username,
             email,
             data,
             password : hash
         })
-
         response.send({
             status: 'Success', 
             message : 'Usuario Guardado'
